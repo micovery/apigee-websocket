@@ -13,8 +13,8 @@ import (
 )
 
 var address = flag.String("address", "ws://localhost:8080", "Web socket server address")
-var idleStart = flag.Int("idle-start", 10, "Start idling at this number of seconds")
-var idleStop = flag.Int("idle-stop", 650, "Stop idling at this number of seconds")
+var idleStart = flag.Int("idle-start", -1, "Start idling at this number of seconds")
+var idleStop = flag.Int("idle-stop", -1, "Stop idling at this number of seconds")
 
 func main() {
 	flag.Parse()

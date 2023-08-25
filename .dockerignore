@@ -2,3 +2,5 @@
 *.iml
 Dockerfile
 .gitignore
+*.tar.gz
+*.zip
