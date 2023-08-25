@@ -8,5 +8,5 @@ sudo apt-get install -y curl
 
 curl -o go.tar.gz -sfL "${GO_TARGZ_URL}"
 tar -xvf "go.tar.gz"
-mv go go-sdk
-mkdir go
+mv go $HOME/go-sdk
+mkdir $HOME/go
