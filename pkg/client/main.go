@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"golang.org/x/net/websocket"
@@ -11,7 +12,9 @@ import (
 	"time"
 )
 
-var address = flag.String("address", "ws://localhost:8080", "http service address")
+var address = flag.String("address", "ws://localhost:8080", "Web socket server address")
+var idleStart = flag.Int("idle-start", 10, "Start idling at this number of seconds")
+var idleStop = flag.Int("idle-stop", 650, "Stop idling at this number of seconds")
 
 func main() {
 	flag.Parse()
@@ -32,7 +35,7 @@ func main() {
 		Origin:    u,
 		Protocol:  []string{},
 		Version:   13,
-		TlsConfig: nil,
+		TlsConfig: &tls.Config{InsecureSkipVerify: true},
 		Header:    nil,
 		Dialer:    nil,
 	})
@@ -59,12 +62,23 @@ func main() {
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
 
+	start := int64(0)
 	for {
 		select {
 		case <-done:
 			return
 		case t := <-ticker.C:
-			msg := fmt.Sprintf("%v", t.Unix())
+			time := t.Unix()
+			if start == 0 {
+				start = time
+			}
+			elapsed := time - start
+			if elapsed > int64(*idleStart) && elapsed < int64(*idleStop) {
+				fmt.Printf("idling: %v\n", elapsed)
+				continue
+			}
+
+			msg := fmt.Sprintf("%v", elapsed)
 			fmt.Printf("send: %s\n", msg)
 			_, err := c.Write([]byte(msg))
 			if err != nil {
