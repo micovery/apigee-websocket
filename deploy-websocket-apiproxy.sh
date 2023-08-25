@@ -1,9 +1,8 @@
 #!/bin/bash
 
 set -e
-# Get the URL for the apigee-websocket Cloud Run service
 
-WEBSOCKET_CLOUDRUN_URL=$(gcloud run services describe apigee-websocket --region us-west1 --format "get(status.url)")
+WEBSOCKET_CLOUD_RUN_URL=$(gcloud run services describe apigee-websocket --region us-west1 --format "get(status.url)")
 PROJECT_ID=$(gcloud config get project)
 
 if [ -z "${PROJECT_ID}" ] ; then
@@ -12,13 +11,13 @@ if [ -z "${PROJECT_ID}" ] ; then
 fi
 
 
-if [ -z "${WEBSOCKET_CLOUDRUN_URL}" ] ; then
+if [ -z "${WEBSOCKET_CLOUD_RUN_URL}" ] ; then
   echo "could not get url for the apigee-websocket cloud-run service"
   exit 1
 fi
 
-echo "WEBSOCKET_CLOUDRUN_URL=${WEBSOCKET_CLOUDRUN_URL}"
-sed -i.bak -e  "s%<URL>.*</URL>%<URL>${WEBSOCKET_CLOUDRUN_URL}</URL>%" apiproxy/targets/default.xml
+echo "WEBSOCKET_CLOUD_RUN_URL=${WEBSOCKET_CLOUD_RUN_URL}"
+sed -i.bak -e  "s%<URL>.*</URL>%<URL>${WEBSOCKET_CLOUD_RUN_URL}</URL>%" apiproxy/targets/default.xml
 rm apiproxy/targets/default.xml.bak
 
 export TOKEN="$(gcloud  auth print-access-token)"
