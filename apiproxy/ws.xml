@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="3" name="ws">
+  <DisplayName/>
+  <Description/>
+  <CreatedAt>1692931247431</CreatedAt>
+  <LastModifiedAt>1692931247431</LastModifiedAt>
+  <BasePaths>/ws</BasePaths>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <TargetEndpoints>
+    <TargetEndpoint>default</TargetEndpoint>
+  </TargetEndpoints>
+</APIProxy>
